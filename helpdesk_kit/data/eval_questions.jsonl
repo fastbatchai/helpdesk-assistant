@@ -1,0 +1,15 @@
+{"id": "q01", "question": "How do I reset my password?", "type": "in_scope", "category": "account_access", "needs_human": false, "expected_sources": ["password-reset-policy"]}
+{"id": "q02", "question": "What hours is the IT help desk open?", "type": "in_scope", "category": "policy", "needs_human": false, "expected_sources": ["help-desk-policy"]}
+{"id": "q03", "question": "How soon should I expect a first response to a P2 ticket?", "type": "in_scope", "category": "policy", "needs_human": false, "expected_sources": ["help-desk-policy"]}
+{"id": "q04", "question": "My VPN shows error NGL-809. What does it mean?", "type": "in_scope", "category": "network", "needs_human": false, "expected_sources": ["vpn-troubleshooting"]}
+{"id": "q05", "question": "How often does my laptop get replaced?", "type": "in_scope", "category": "hardware", "needs_human": false, "expected_sources": ["laptop-replacement-policy"]}
+{"id": "q06", "question": "How many failed sign-ins before my account locks?", "type": "in_scope", "category": "account_access", "needs_human": false, "expected_sources": ["account-lockout"]}
+{"id": "q07", "question": "How often do I have to change my password?", "type": "in_scope", "category": "account_access", "needs_human": false, "expected_sources": ["password-reset-policy"]}
+{"id": "q08", "question": "I got an email that looks like phishing but I didn't click anything. What should I do?", "type": "in_scope", "category": "security", "needs_human": false, "expected_sources": ["phishing-reporting"]}
+{"id": "q09", "question": "What's the best pizza place near the Rotterdam office?", "type": "out_of_scope", "category": "out_of_scope", "needs_human": false, "expected_sources": []}
+{"id": "q10", "question": "Can you help me write my performance review?", "type": "out_of_scope", "category": "out_of_scope", "needs_human": false, "expected_sources": []}
+{"id": "q11", "question": "What is the salary band for a senior analyst?", "type": "out_of_scope", "category": "out_of_scope", "needs_human": false, "expected_sources": []}
+{"id": "q12", "question": "It's not working again. Can you fix it?", "type": "ambiguous", "category": "unclear", "needs_human": false, "expected_sources": []}
+{"id": "q13", "question": "I can't get in.", "type": "ambiguous", "category": "unclear", "needs_human": false, "expected_sources": []}
+{"id": "q14", "question": "I clicked a link in a strange email and typed in my password. What now?", "type": "needs_human", "category": "security", "needs_human": true, "expected_sources": ["phishing-reporting"]}
+{"id": "q15", "question": "The whole Hamburg office has lost its network and the warehouse can't ship. Help!", "type": "needs_human", "category": "network", "needs_human": true, "expected_sources": ["incident-severity-levels"]}

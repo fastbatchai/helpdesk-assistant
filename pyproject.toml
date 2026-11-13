@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "helpdesk-kit"
+version = "0.1.0"
+description = "Reference app for the FastBatch AI bootcamp: a fictional IT help-desk assistant."
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic",
+    "matplotlib",
+    "opentelemetry-api",
+    "pandas",
+    "pydantic>=2",
+]
+
+[project.optional-dependencies]
+# Retrieval is heavy, so only the Module 3+ notebooks install it.
+rag = [
+    "chromadb",
+    "rank-bm25",
+    "sentence-transformers",
+]
+# The MCP server and client (4.2, 4.5).
+mcp = [
+    "mcp>=1.2,<2",  # mcp 2.x renamed FastMCP; the 4.2 server uses the 1.x API.
+]
+
+[tool.setuptools.packages.find]
+include = ["helpdesk_kit*", "mcp_server*"]
+namespaces = false  # The data folders are data, not Python packages.
+
+[tool.setuptools.package-data]
+helpdesk_kit = ["data/**/*"]
