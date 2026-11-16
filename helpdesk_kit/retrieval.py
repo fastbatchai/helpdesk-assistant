@@ -1,8 +1,4 @@
-"""Load the knowledge base, chunk it, and search it three ways.
-
-Loading documents needs only the standard library. Searching needs the `rag`
-extra (sentence-transformers, chromadb, rank-bm25), imported when first used.
-"""
+"""Load the knowledge base, chunk it, and search it three ways."""
 
 from __future__ import annotations
 
@@ -92,7 +88,7 @@ class Retriever:
         self.by_id: dict[str, Chunk] = {}
         self.embedder = SentenceTransformer(model_name)
         # Ephemeral clients share one store in a process, so each Retriever gets
-        # its own collection. A poisoned copy in 3.6 can't leak into a clean one.
+        # its own collection. A poisoned copy can't leak into a clean one.
         self.collection = chromadb.EphemeralClient().create_collection(
             f"helpdesk_kb_{uuid4().hex[:8]}", metadata={"hnsw:space": "cosine"}
         )
@@ -118,8 +114,14 @@ class Retriever:
 
     def keyword_search(self, query: str, k: int = 5, audiences=EVERYONE) -> list[Chunk]:
         scores = self.bm25.get_scores(_tokenize(query))
-        ranked = sorted(zip(scores, self.chunks), key=lambda pair: pair[0], reverse=True)
-        hits = [chunk for score, chunk in ranked if score > 0 and chunk.audience in audiences]
+        ranked = sorted(
+            zip(scores, self.chunks), key=lambda pair: pair[0], reverse=True
+        )
+        hits = [
+            chunk
+            for score, chunk in ranked
+            if score > 0 and chunk.audience in audiences
+        ]
         return hits[:k]
 
     def vector_search(self, query: str, k: int = 5, audiences=EVERYONE) -> list[Chunk]:
@@ -131,7 +133,12 @@ class Retriever:
         return [self.by_id[chunk_id] for chunk_id in result["ids"][0]]
 
     def hybrid_search(
-        self, query: str, k: int = 5, audiences=EVERYONE, pool: int = 20, rrf_k: int = 60
+        self,
+        query: str,
+        k: int = 5,
+        audiences=EVERYONE,
+        pool: int = 20,
+        rrf_k: int = 60,
     ) -> list[Chunk]:
         """Reciprocal rank fusion: reward chunks ranked high by either method."""
         scores: dict[str, float] = {}

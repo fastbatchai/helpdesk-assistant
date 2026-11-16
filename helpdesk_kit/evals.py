@@ -13,8 +13,8 @@ from . import DATA_DIR
 from .llm import DEFAULT_MODEL, chat, parse_json
 
 EVAL_PATH = DATA_DIR / "eval_questions.jsonl"
-EVAL_30_PATH = DATA_DIR / "eval_set_30.jsonl"  # The finished 3.5 set, for anyone who missed it.
-SECURITY_PATH = DATA_DIR / "security_cases.jsonl"  # Starter attacks, for anyone who missed 3.6.
+EVAL_30_PATH = DATA_DIR / "eval_set_30.jsonl"  # The finished 30-case test set.
+SECURITY_PATH = DATA_DIR / "security_cases.jsonl"  # Starter attacks for the security tests.
 JUDGE_PATH = DATA_DIR / "judge_cases.jsonl"
 
 
@@ -132,7 +132,7 @@ def _judge(instructions: str) -> dict:
     reply = chat(
         instructions + '\n\nReturn only JSON: {"verdict": "pass" or "fail", "reason": "one sentence"}',
         model=JUDGE_MODEL,
-        max_tokens=200,
+        max_tokens=4000,  # Room for the model's thinking too; we pay only for what's used.
     )
     return parse_json(reply.text)
 
@@ -170,7 +170,7 @@ def add_quality(results: list[dict], max_workers: int = 4) -> list[dict]:
 
 
 def baseline_metrics(results: list[dict]) -> dict:
-    """The numbers 3.5 saves and 4.5 compares against."""
+    """The baseline numbers: saved once, and compared against later."""
     costs = [result.get("cost") for result in results]
     count = len(results)
     return {
@@ -228,12 +228,12 @@ def plot_pass_rates(runs: dict[str, list[dict]], title: str = "") -> None:
             ax.bar(positions, values, width=width, color=RUN_COLOURS[number], label=name,
                    edgecolor=SURFACE, linewidth=2)
             # Label only the "all" bars: the overall score of each run.
-            # With three runs, give each label its own height above the tallest bar, so none overlap.
-            height = values[-1] + 0.02 if len(runs) < 3 else top + 0.03 + 0.07 * number
+            # With several runs, give each label its own height above the tallest bar, so none overlap.
+            height = values[-1] + 0.02 if len(runs) == 1 else top + 0.03 + 0.07 * number
             ax.text(positions[-1], height, f"{values[-1]:.0%}", ha="center", color=INK, fontsize=label_size)
         ax.set_title(check_title, loc="left", color=INK)
         ax.set_xticks(range(len(types)), labels, color=SOFT_INK)
-        ax.set_ylim(0, 1.12 if len(runs) < 3 else 1.3)
+        ax.set_ylim(0, {1: 1.12, 2: 1.22}.get(len(runs), 1.3))
         ax.set_yticks([0, 0.2, 0.4, 0.6, 0.8, 1.0])  # The room above 100% is only for labels.
         ax.yaxis.set_major_formatter(PercentFormatter(1.0))
         ax.set_facecolor(SURFACE)

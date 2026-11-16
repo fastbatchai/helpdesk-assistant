@@ -20,12 +20,11 @@ LARGE = "claude-opus-5-5"
 # Every notebook uses this unless it says otherwise. Change it here, once.
 DEFAULT_MODEL = MID
 
-# US dollars per million tokens. While a price is None, cost() returns None
-# and the notebooks print "n/a". Tokens are always reported.
+# US dollars per million tokens. Check https://www.anthropic.com/pricing for today's prices.
 PRICES = {
-    SMALL: {"input": None, "output": None},
-    MID: {"input": None, "output": None},
-    LARGE: {"input": None, "output": None},
+    SMALL: {"input": 0.10, "output": 0.50},
+    MID: {"input": 2.00, "output": 10.00},
+    LARGE: {"input": 4.00, "output": 20.00},
 }
 
 
