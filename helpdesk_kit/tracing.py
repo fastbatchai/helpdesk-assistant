@@ -15,6 +15,9 @@ from opentelemetry import trace
 
 SPANS: list[dict] = []
 _PRIMITIVES = (str, int, float, bool)
+# Phoenix and Langfuse show these two attributes as a step's Input and Output.
+_INPUT_OUTPUT = {"question": "input.value", "prompt": "input.value", "query": "input.value",
+                 "answer": "output.value", "completion": "output.value", "chunks": "output.value"}
 
 
 def _secret(name: str) -> str | None:
@@ -68,7 +71,10 @@ class _Span:
     def set(self, **attributes) -> None:
         self.record.update(attributes)
         for key, value in attributes.items():
-            self._otel.set_attribute(key, value if isinstance(value, _PRIMITIVES) else str(value))
+            value = value if isinstance(value, _PRIMITIVES) else str(value)
+            self._otel.set_attribute(key, value)
+            if key in _INPUT_OUTPUT:
+                self._otel.set_attribute(_INPUT_OUTPUT[key], value)
 
     def add_usage(self, reply) -> None:
         """Attach model, tokens and cost, using the OpenTelemetry GenAI attribute names."""

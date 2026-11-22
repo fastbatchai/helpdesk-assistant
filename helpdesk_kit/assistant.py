@@ -152,6 +152,7 @@ class RagAssistant:
     def answer_with_usage(self, question: str) -> dict:
         """The answer as a dict, with tokens and cost. run_eval() can use this directly."""
         meter = Meter()
-        with span("assistant", question=question, version=self.version):
+        with span("assistant", question=question, version=self.version) as current:
             reply = self.answer(question, meter)
+            current.set(answer=reply.answer)
         return {**reply.model_dump(), "tokens": meter.total_tokens, "cost": meter.cost, "steps": 1}
