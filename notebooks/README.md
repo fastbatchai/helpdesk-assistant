@@ -13,3 +13,4 @@
 | 3.2 | Document Q&A with citations | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fastbatchai/helpdesk-assistant/blob/main/notebooks/3.2_rag_with_citations.ipynb) |
 | 3.3 | LoRA on a small open model | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fastbatchai/helpdesk-assistant/blob/main/notebooks/3.3_lora_finetuning.ipynb) |
 | 3.4 | Evals and tracing | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fastbatchai/helpdesk-assistant/blob/main/notebooks/3.4_evals_and_tracing.ipynb) |
+| 3.5 | Red-team lab | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fastbatchai/helpdesk-assistant/blob/main/notebooks/3.5_red_team.ipynb) |
